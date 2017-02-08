@@ -3,6 +3,7 @@ module WebstopApi
   module Interfaces
     module ConsumerSessions
       include WebstopApi::REST::ConsumerSessions
+      attr_reader :token, :webstop_id
 
       def login(credentials)
         response    = _login(credentials)
@@ -14,16 +15,6 @@ module WebstopApi
         if _logout(token: token)
           @token = nil
         end
-      end
-
-      private
-
-      def token
-        @token
-      end
-
-      def webstop_id
-        @webstop_id
       end
 
     end
