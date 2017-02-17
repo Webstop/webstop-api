@@ -40,6 +40,20 @@ module WebstopApi
         JSON.parse(response)
       end
 
+      def _get_favorites(options = {})
+        response = RestClient.get "#{WebstopApi.endpoint}/api/#{WebstopApi.api_version}/retailers/#{WebstopApi.retailer_id}/shopping_list_favorites.json?consumer_credentials=#{options[:token]}"
+        JSON.parse(response)
+      end
+
+      def _add_favorite_to_list(id, shopping_list_id, options = {})
+        response = RestClient.post "#{WebstopApi.endpoint}/api/#{WebstopApi.api_version}/retailers/#{WebstopApi.retailer_id}/shopping_lists/#{shopping_list_id}/shopping_list_favorites/#{id}/create_shopping_list_item.json?consumer_credentials=#{options[:token]}", {}
+        JSON.parse(response)
+      end
+
+      def _destroy_favorite(id, options = {})
+        response = RestClient.delete "#{WebstopApi.endpoint}/api/#{WebstopApi.api_version}/retailers/#{WebstopApi.retailer_id}/shopping_list_favorites/#{id}.json?consumer_credentials=#{options[:token]}", {}
+      end
+
     end
   end
 end
