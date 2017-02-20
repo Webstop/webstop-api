@@ -22,7 +22,29 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+The Webstop Api gem allows for interacting with the Webstop Api from a remote rails app as long as certain configuration options are present.  In order to use this gem properly, please do the following:
+
+1.  Create an initializer file in your remote app.  An example would be `config/initializers/webstop.rb`
+2.  Create a configuration block to initialize the gem like so:
+```ruby
+  WebstopApi.configure do |config|
+    config.endpoint = "http://lvh.me:3000"
+    config.retailer_id = 767
+    config.api_version = "v3" #NOTE: This gem will only function properly with V3 of the Webstop API.
+  end
+```
+
+You are now ready to use the gem.
+
+### Examples
+
+```ruby
+  client = WebstopApi.new
+  client.login(consumer_session: { email: "joe@bagels.com", password: "password", retailer_id: client.retailer_id })
+  #Your client will now have an authenticated session with the retailer api
+  client.get_all_coupons #returns a JSON body of coupons
+```
+To see a list of all of the available methods, take a look at the individual interfaces in the `interfaces` folder.
 
 ## Development
 
@@ -38,4 +60,3 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/[USERN
 ## License
 
 The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
-
