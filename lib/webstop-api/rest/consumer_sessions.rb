@@ -6,8 +6,8 @@ module WebstopApi
 
       def _login(body = {})
         account = connection.post do |req|
-          req.url '/login'
-          req.header['Content-Type'] = 'application/json'
+          req.url 'login'
+          req.headers['Content-Type'] = 'application/json'
           req.body = body.to_json
         end
         JSON.parse(account.body)
@@ -16,7 +16,7 @@ module WebstopApi
       def _logout(options = {})
         response = connection.delete do |req|
           req.headers['Content-Type'] = 'application/json'
-          req.url '/logout', consumer_credentials: options[:token]
+          req.url 'logout', consumer_credentials: options[:token]
         end
       end
 
