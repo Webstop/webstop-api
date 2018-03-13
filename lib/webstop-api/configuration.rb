@@ -23,10 +23,10 @@ module WebstopApi
     end
 
     def reset
-      self.endpoint    = DEFAULT_ENDPOINT
+      self.endpoint    = ENV["WEBSTOP_API_URL"] || DEFAULT_ENDPOINT
       self.method      = DEFAULT_METHOD
-      self.retailer_id = DEFAULT_RETAILER_ID
-      self.api_version = DEFAULT_API_VERSION
+      self.retailer_id = ENV["WEBSTOP_API_RETAILER_ID"] || DEFAULT_RETAILER_ID
+      self.api_version = ENV["WEBSTOP_API_VERSION"] || DEFAULT_API_VERSION
       self.api_key     = DEFAULT_API_KEY
       self.format      = DEFAULT_FORMAT
       self.access_key  = DEFAULT_ACCESS_KEY
