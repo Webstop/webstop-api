@@ -5,28 +5,44 @@ module WebstopApi
       include WebstopApi::REST::Resources
 
       def _get_all_coupons(options = {})
-        response = RestClient.get "#{ WebstopApi.endpoint }/api/#{ WebstopApi.api_version }/retailers/#{ WebstopApi.retailer_id }/coupons.json?consumer_credentials=#{options[:token]}"
-        JSON.parse(response) rescue { coupons: [] }
+        coupons = retailer_connection.get do |req|
+          req.url "coupons", consumer_credentials: options[:token]
+          req.headers['Content-Type'] = 'application/json'
+        end
+
+        JSON.parse(coupons.body) rescue { coupons: [] }
       end
 
       def _get_clipped_coupons(options = {})
-        response = RestClient.get "#{ WebstopApi.endpoint }/api/#{ WebstopApi.api_version }/retailers/#{ WebstopApi.retailer_id }/coupons/clipped.json?consumer_credentials=#{options[:token]}"
-        JSON.parse(response)
+        coupons = retailer_connection.get do |req|
+          req.url "coupons/clipped", consumer_credentials: options[:token]
+          req.headers['Content-Type'] = 'application/json'
+        end
+        JSON.parse(coupons.body) rescue { coupons: [] }
       end
 
       def _get_coupon(id, options = {})
-        response = RestClient.get "#{ WebstopApi.endpoint }/api/#{ WebstopApi.api_version }/retailers/#{ WebstopApi.retailer_id }/coupons/#{id}.json?consumer_credentials=#{options[:token]}"
-        JSON.parse(response)
+        coupon = retailer_connection.get do |req|
+          req.url "coupons/#{id}", consumer_credentials: options[:token]
+          req.headers['Content-Type'] = 'application/json'
+        end
+        JSON.parse(coupon.body) rescue { coupon: {} }
       end
 
       def _get_targeted_coupons(options = {})
-        response = RestClient.get "#{ WebstopApi.endpoint }/api/#{ WebstopApi.api_version }/retailers/#{ WebstopApi.retailer_id }/coupons/targeted.json?consumer_credentials=#{options[:token]}"
-        JSON.parse(response)
+        coupons = retailer_connection.get do |req|
+          req.url "coupons/targeted", consumer_credentials: options[:token]
+          req.headers['Content-Type'] = 'application/json'
+        end
+        JSON.parse(coupons.body) rescue { coupons: [] }
       end
 
       def _clip_coupon(id, options = {})
-        response = RestClient.post "#{ WebstopApi.endpoint }/api/#{ WebstopApi.api_version }/retailers/#{ WebstopApi.retailer_id }/coupons/#{id}/clip.json?consumer_credentials=#{options[:token]}", {}
-        JSON.parse(response)
+        coupon = retailer_connection.post do |req|
+          req.url "coupons/#{id}/clip", consumer_credentials: options[:token]
+          req.headers['Content-Type'] = 'application/json'
+        end
+        JSON.parse(coupon.body)
       end
 
     end

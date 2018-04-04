@@ -6,8 +6,11 @@ module WebstopApi
       include WebstopApi::REST::Resources
 
       def _all_external_programs
-        response = RestClient.get "#{WebstopApi.endpoint}/api/#{WebstopApi.api_version}/retailers/#{WebstopApi.retailer_id}/external_consumer_programs.json"
-        JSON.parse(response)
+        programs = retailer_connection.get do |req|
+          req.url "external_consumer_programs", consumer_credentials: options[:token]
+          req.headers['Content-Type'] = 'application/json'
+        end
+        JSON.parse(programs.body) rescue { external_ids: [] }
       end
 
     end

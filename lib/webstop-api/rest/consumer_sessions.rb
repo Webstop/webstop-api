@@ -20,9 +20,7 @@ module WebstopApi
         end
       end
 
-      def connection
-        Faraday.new("#{ WebstopApi.endpoint }/api/#{ WebstopApi.api_version }")
-      end
+      
     end
   end
 end

@@ -4,12 +4,12 @@ module WebstopApi
     module Consumers
       include WebstopApi::REST::Consumers
 
-      def me
-        _me(token: token)
+      def me(token)
+        _me(token)
       end
 
-      def update_consumer(attributes = {})
-        response = _update_me({ webstop_id: webstop_id, token: token }, attributes)
+      def update_consumer(options = {}, attributes = {})
+        response = _update_me(options, attributes)
       end
 
       def create_consumer(attributes = {}, current_user = false)

@@ -5,53 +5,87 @@ module WebstopApi
       include WebstopApi::REST::Resources
 
       def _add_list(data, options = {})
-        response = RestClient.post "#{WebstopApi.endpoint }/api/#{WebstopApi.api_version}/retailers/#{WebstopApi.retailer_id}/shopping_lists.json?consumer_credentials=#{options[:token]}", shopping_list: data
-        JSON.parse(response)
+        list = retailer_connection.post do |req|
+          req.url "shopping_lists", consumer_credentials: options[:token]
+          req.headers['Content-Type'] = "application/json"
+          req.body = { shopping_list: data }.to_json
+        end
+        JSON.parse(list.body) rescue { shopping_list: {} }
       end
 
       def _destroy_list(id, options = {})
-        response = RestClient.delete "#{ WebstopApi.endpoint }/api/#{ WebstopApi.api_version }/retailers/#{ WebstopApi.retailer_id }/shopping_lists/#{id}.json?consumer_credentials=#{options[:token]}"
+        response = retailer_connection.delete do |req|
+          req.url "shopping_lists/#{id}", consumer_credentials: options[:token]
+          req.headers['Content-Type'] = "application/json"
+        end
         return true if response.code == 204
         response
       end
 
       def _get_all_lists(options = {})
-        response = RestClient.get "#{ WebstopApi.endpoint }/api/#{ WebstopApi.api_version }/retailers/#{ WebstopApi.retailer_id }/shopping_lists.json?consumer_credentials=#{options[:token]}"
-        JSON.parse(response) rescue { shopping_lists: [] }
+        lists = retailer_connection.get do |req|
+          req.url "shopping_lists", consumer_credentials: options[:token]
+          req.headers['Content-Type'] = 'application/json'
+        end
+        JSON.parse(lists.body) rescue { shopping_lists: [] }
       end
 
       def _get_current_list(options = {})
-        response = RestClient.get "#{ WebstopApi.endpoint }/api/#{ WebstopApi.api_version }/retailers/#{ WebstopApi.retailer_id }/shopping_lists/current_list.json?consumer_credentials=#{options[:token]}"
-        JSON.parse(response)
+        list = retailer_connection.get do |req|
+          req.url "shopping_lists/current_list", consumer_credentials: options[:token]
+          req.headers['Content-Type'] = 'application/json'
+        end
+        JSON.parse(list.body) rescue { shopping_list: nil }
       end
 
       def _get_list(id, options = {})
-        response = RestClient.get "#{ WebstopApi.endpoint }/api/#{ WebstopApi.api_version }/retailers/#{ WebstopApi.retailer_id }/shopping_lists/#{id}.json?consumer_credentials=#{options[:token]}"
-        JSON.parse(response)
+        lists = retailer_connection.get do |req|
+          req.url "shopping_lists/#{id}", consumer_credentials: options[:token]
+          req.headers['Content-Type'] = 'application/json'
+        end
+        JSON.parse(lists.body) rescue { shopping_list: nil }
       end
 
       def _make_current_list(id, options = {})
-        response = RestClient.get "#{ WebstopApi.endpoint }/api/#{ WebstopApi.api_version }/retailers/#{ WebstopApi.retailer_id }/shopping_lists/#{id}/make_current.json?consumer_credentials=#{options[:token]}"
-        JSON.parse(response)
+        lists = retailer_connection.get do |req|
+          req.url "shopping_lists/#{id}/make_current", consumer_credentials: options[:token]
+          req.headers['Content-Type'] = 'application/json'
+        end
+        JSON.parse(lists.body) rescue { shopping_list: nil }
       end
 
       def _update_list(id, data, options = {})
-        response = RestClient.put "#{WebstopApi.endpoint}/api/#{WebstopApi.api_version}/retailers/#{WebstopApi.retailer_id}/shopping_lists/#{id}.json?consumer_credentials=#{options[:token]}", shopping_list: data
-        JSON.parse(response)
+        list = retailer_connection.put do |req|
+          req.url "shopping_lists/#{id}", consumer_credentials: options[:token]
+          req.headers['Content-Type'] = "application/json"
+          req.body = { shopping_list: data }.to_json
+        end
+        JSON.parse(list.body)
       end
 
       def _get_favorites(options = {})
-        response = RestClient.get "#{WebstopApi.endpoint}/api/#{WebstopApi.api_version}/retailers/#{WebstopApi.retailer_id}/shopping_list_favorites.json?consumer_credentials=#{options[:token]}"
-        JSON.parse(response)
+        favorites = retailer_connection.get do |req|
+          req.url "shopping_list_favorites", consumer_credentials: options[:token]
+          req.headers['Content-Type'] = 'application/json'
+        end
+        JSON.parse(favorites.body)
       end
 
       def _add_favorite_to_list(id, shopping_list_id, options = {})
-        response = RestClient.post "#{WebstopApi.endpoint}/api/#{WebstopApi.api_version}/retailers/#{WebstopApi.retailer_id}/shopping_lists/#{shopping_list_id}/shopping_list_favorites/#{id}/create_shopping_list_item.json?consumer_credentials=#{options[:token]}", {}
-        JSON.parse(response)
+        response = retailer_connection.post do |req|
+          req.url "shopping_lists/#{shopping_list_id}/shopping_list_favorites/#{id}/create_shopping_list_item", consumer_credentials: options[:token]
+          req.headers['Content-Type'] = 'application/json'
+        end
+        JSON.parse(response.body)
       end
 
       def _destroy_favorite(id, options = {})
-        response = RestClient.delete "#{WebstopApi.endpoint}/api/#{WebstopApi.api_version}/retailers/#{WebstopApi.retailer_id}/shopping_list_favorites/#{id}.json?consumer_credentials=#{options[:token]}", {}
+        response = retailer_connection.delete do |req|
+          req.url "shopping_list_favorites/#{id}", consumer_credentials: options[:token]
+          req.headers['Content-Type'] = 'application/json'
+        end
+        return true if response.status == 204
+        false
       end
 
     end

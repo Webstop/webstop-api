@@ -4,24 +4,24 @@ module WebstopApi
     module Coupons
       include WebstopApi::REST::Coupons
 
-      def get_all_coupons
-        _get_all_coupons(token: token)
+      def get_all_coupons(token)
+        _get_all_coupons(token: token).with_indifferent_access["coupons"]
       end
 
-      def get_clipped_coupons
-        _get_clipped_coupons(token: token)
+      def get_clipped_coupons(token)
+        _get_clipped_coupons(token: token).with_indifferent_access[:coupons]
       end
 
-      def get_coupon(id)
-        _get_coupon(id, token: token)
+      def get_coupon(id, token)
+        _get_coupon(id, token: token).with_indifferent_access[:coupon]
       end
 
-      def get_targeted_coupons
-        _get_targeted_coupons(token: token)
+      def get_targeted_coupons(token)
+        _get_targeted_coupons(token: token).with_indifferent_access["coupons"]
       end
 
-      def clip_coupon(id)
-        _clip_coupon(id, token: token)
+      def clip_coupon(id, token)
+        _clip_coupon(id, token: token).with_indifferent_access
       end
 
     end

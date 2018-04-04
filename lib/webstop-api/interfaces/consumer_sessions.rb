@@ -10,6 +10,7 @@ module WebstopApi
         webstop_id = response.dig("consumer", "id")
         token      = response.dig("consumer", "consumer_credentials")
         errors     = response.dig("errors")
+        @token = token
         ConsumerSession.new(webstop_id: webstop_id, token: token, errors: errors)
       end
 

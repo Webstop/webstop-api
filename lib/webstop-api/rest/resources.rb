@@ -13,6 +13,10 @@ module WebstopApi
         401 => 'Your token is unavailable or incorrect.'
       }
 
+      def connection
+        Faraday.new("#{ WebstopApi.endpoint }/api/#{ WebstopApi.api_version }")
+      end
+
       def enhanced_exception(e, custom_statuses = {})
         statuses = STATUSES.merge(custom_statuses)
         if e.respond_to?(:http_code) && statuses[e.http_code]
@@ -20,6 +24,10 @@ module WebstopApi
           e.define_singleton_method(:message) { new_message }
         end
         e
+      end
+
+      def retailer_connection
+        Faraday.new("#{ WebstopApi.endpoint }/api/#{ WebstopApi.api_version }/retailers/#{ WebstopApi.retailer_id }")
       end
 
     end

@@ -5,7 +5,7 @@ module WebstopApi
       include WebstopApi::REST::Retailers
 
       def retailer
-        _get_retailer
+        _get_retailer["retailer"].with_indifferent_access
       end
     end
   end

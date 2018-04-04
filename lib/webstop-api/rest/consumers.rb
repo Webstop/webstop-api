@@ -4,20 +4,36 @@ module WebstopApi
     module Consumers
       include WebstopApi::REST::Resources
 
-      def _me(options = {})
-        response = RestClient.get "#{ WebstopApi.endpoint }/api/#{ WebstopApi.api_version }/retailers/#{ WebstopApi.retailer_id }/consumers/me.json?consumer_credentials=#{options[:token]}"
-        JSON.parse(response.body)
+      def _me(token)
+        account = retailer_connection.get do |req|
+          req.url "consumers/me", consumer_credentials: token
+          req.headers['Content-Type'] = 'application/json'
+        end
+        JSON.parse(account.body)
       end
 
       def _update_me(options = {}, consumer_attributes = {})
-        response = RestClient.put "#{ WebstopApi.endpoint }/api/#{ WebstopApi.api_version }/retailers/#{ WebstopApi.retailer_id }/consumers/#{options[:webstop_id]}.json?consumer_credentials=#{options[:token]}", consumer_attributes
-        JSON.parse(response.body)
+        account = retailer_connection.put do |req|
+          req.url "consumers/#{options[:webstop_id]}", consumer_credentials: options[:token]
+          req.headers['Content-Type'] = 'application/json'
+          req.body = consumer_attributes.to_json
+        end
+        if account.status == 204
+          true
+        else
+          JSON.parse(account.body)
+        end
       end
 
       def _create_consumer(consumer_attributes = {}, options = {})
-        response = RestClient.post "#{ WebstopApi.endpoint }/api/#{ WebstopApi.api_version }/retailers/#{ WebstopApi.retailer_id}/consumers.json?consumer_credentials=#{options[:token]}", consumer_attributes
-        JSON.parse(response.body)
+        account = retailer_connection.post do |req|
+          req.url "consumers", consumer_credentials: options[:token]
+          req.headers['Content-Type'] = 'application/json'
+          req.body = consumer_attributes.to_json
+        end
+        JSON.parse(account.body)
       end
+
     end
   end
 end
