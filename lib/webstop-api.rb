@@ -10,6 +10,7 @@ module WebstopApi
   autoload :ExternalSource, "webstop-api/models/external_source"
   autoload :Client, "webstop-api/models/client"
   autoload :ShoppingList, "webstop-api/models/shopping_list"
+  autoload :Retailer, "webstop-api/models/retailer"
 
   extend Configuration
 end
