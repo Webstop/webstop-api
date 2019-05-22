@@ -36,15 +36,36 @@ The Webstop Api gem allows for interacting with the Webstop Api from a remote ra
 
 You are now ready to use the gem.
 
-### Examples
+### Information
+
+To see a list of all of the available methods, take a look at the individual interfaces in the `interfaces` folder.
+
+### Important methods
+
+#### login
+
+This client method allows an app to log a consumer in.  *NOTE* This is only applicable to the V3 api which is connected to consumer module 6.0.  If you are using login with a retailer on anything less
+than that, use `legacy_login`
 
 ```ruby
-  client = WebstopApi.new
-  client.login(consumer_session: { email: "joe@bagels.com", password: "password", retailer_id: client.retailer_id })
-  #Your client will now have an authenticated session with the retailer api
-  client.get_all_coupons #returns a JSON body of coupons
+  client = WebstopApi::Client.new
+  @consumer = client.login(consumer_session: { email: "joe@bagels.com", password: "password", retailer_id: client.retailer_id })
+  #@consumer is now a WebstopApi::Consumer, which has access to all of the data attributes of a consumer.
+  @consumer.email #art@webstop.com
+  @consumer.consumer_credential #use this value to make any calls to grab a consumer's data, such as coupons.
 ```
-To see a list of all of the available methods, take a look at the individual interfaces in the `interfaces` folder.
+
+#### legacy_login
+
+This is used to obtain an api_user token, essentially our old version of consumers.
+
+```ruby
+  client = WebstopApi::Client.new
+  @consumer = client.legacy_login(type: "Card", retailer_id: client.retailer_id, login: "art@webstop.com", password: "aaa")
+  #@consumer is now a WebstopApi::Consumer, which has access to all of the data attributes of a consumer.
+  @consumer.email #art@webstop.com
+  @consumer.api_user_credential #use this value to make any calls to grab a consumer's data, such as coupons.
+```
 
 ## Development
 

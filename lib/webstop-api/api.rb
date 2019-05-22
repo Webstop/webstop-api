@@ -1,4 +1,4 @@
-
+require 'webstop-api/rest/api_user_sessions'
 require 'webstop-api/rest/consumer_sessions'
 require 'webstop-api/rest/consumers'
 require 'webstop-api/rest/external_programs'
@@ -9,6 +9,7 @@ require 'webstop-api/rest/subscription_lists'
 module WebstopApi
 
   module Api
+    include WebstopApi::REST::ApiUserSessions
     include WebstopApi::REST::ConsumerSessions
     include WebstopApi::REST::Consumers
     include WebstopApi::REST::Coupons

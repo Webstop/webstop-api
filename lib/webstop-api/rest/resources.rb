@@ -1,6 +1,5 @@
 require 'webstop-api/utilities/object_factory'
 require 'faraday'
-require 'pry'
 
 module WebstopApi
 

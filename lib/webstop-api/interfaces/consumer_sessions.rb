@@ -1,4 +1,5 @@
 require "webstop-api/rest/consumer_sessions"
+require "webstop-api/models/consumer"
 
 module WebstopApi
   module Interfaces
@@ -11,12 +12,12 @@ module WebstopApi
         token      = response.dig("consumer", "consumer_credentials")
         errors     = response.dig("errors")
         @token = token
-        ConsumerSession.new(webstop_id: webstop_id, token: token, errors: errors)
+        Consumer.new(response[:consumer])
       end
 
       def logout
         if _logout(token: token)
-          @token = nil
+          true
         end
       end
 
