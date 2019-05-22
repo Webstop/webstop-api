@@ -19,8 +19,8 @@ module WebstopApi
         Program.new(program)
       end
 
-      def cards_for_program(program_id, card_number, api_token)
-        _cards(program_id: program_id, card_number: card_number, token: api_token)
+      def cards_for_program(program_id, api_token)
+        _cards(program_id: program_id, token: api_token)
       end
 
       def add_card_to_program(program_id, card_number, api_token)
