@@ -20,7 +20,8 @@ module WebstopApi
       end
 
       def cards_for_program(program_id, api_token)
-        _cards(program_id: program_id, token: api_token)
+        results = _cards(program_id: program_id, token: api_token)
+        results.map{ |card| Card.new(card) }
       end
 
       def add_card_to_program(program_id, card_number, api_token)

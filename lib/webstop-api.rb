@@ -5,6 +5,7 @@ module WebstopApi
 
   autoload :ApiUser, "webstop-api/models/api_user"
   autoload :Base, "webstop-api/models/base"
+  autoload :Card, "webstop-api/models/card"
   autoload :Consumer, "webstop-api/models/consumer"
   autoload :ConsumerSession, "webstop-api/models/consumer_session"
   autoload :Coupon, "webstop-api/models/coupon"
