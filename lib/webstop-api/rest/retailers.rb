@@ -1,4 +1,4 @@
-require 'webstop-api/rest/retailers'
+require 'webstop-api/rest/resources'
 module WebstopApi
   module REST
     module Retailers
