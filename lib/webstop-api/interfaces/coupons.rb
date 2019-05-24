@@ -24,6 +24,9 @@ module WebstopApi
         _clip_coupon(id, token: token).with_indifferent_access
       end
 
+      def clip_coupon_by_tag(card_number, tag, token)
+        _clip_coupon_by_tag(card_number: card_number, tag: tag, token: token)
+      end
     end
   end
 end

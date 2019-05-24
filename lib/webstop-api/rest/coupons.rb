@@ -59,6 +59,18 @@ module WebstopApi
         JSON.parse(coupon.body)
       end
 
+      def _clip_coupon_by_tag(options = {})
+        coupons = v2_connection.post do |req|
+          req.url "cards/#{options[:card_number]}/coupons/tag/#{options[:tag]}/clip.json", api_user_credentials: options[:token]
+          req.headers['Content-Type'] = 'application/json'
+        end
+        JSON.parse(coupon.body)
+      end
+
+      def v2_connection
+        Faraday.new("#{ WebstopApi.endpoint }/api/v2/retailers/#{WebstopApi.retailer_id}")
+      end
+
     end
   end
 end
