@@ -64,7 +64,7 @@ module WebstopApi
           req.url "cards/#{options[:card_number]}/coupons/tag/#{options[:tag]}/clip.json", api_user_credentials: options[:token]
           req.headers['Content-Type'] = 'application/json'
         end
-        JSON.parse(coupon.body)
+        JSON.parse(coupons.body)
       end
 
       def v2_connection
