@@ -51,9 +51,17 @@ module WebstopApi
         JSON.parse(coupons.body) rescue { coupons: [] }
       end
 
-      def _clip_coupon(id, options = {})
+      def _clip_coupon(options = {})
         coupon = retailer_connection.post do |req|
-          req.url "coupons/#{id}/clip", consumer_credentials: options[:token]
+          req.url "coupons/#{options[:id]}/clip", consumer_credentials: options[:token]
+          req.headers['Content-Type'] = 'application/json'
+        end
+        JSON.parse(coupon.body)
+      end
+
+      def _legacy_clip_coupon(options = {})
+        coupon = v2_connection.post do |req|
+          req.url "cards/#{options[:card_number]}/coupons/#{options[:id]}/clip.json", api_user_credentials: options[:token]
           req.headers['Content-Type'] = 'application/json'
         end
         JSON.parse(coupon.body)

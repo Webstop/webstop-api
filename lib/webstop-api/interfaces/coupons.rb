@@ -20,8 +20,12 @@ module WebstopApi
         _get_targeted_coupons(token: token).with_indifferent_access["coupons"]
       end
 
-      def clip_coupon(id, token)
-        _clip_coupon(id, token: token).with_indifferent_access
+      def clip_coupon(id, token, card_number = nil)
+        if api_version == "v3"
+          _clip_coupon(id: id, token: token).with_indifferent_access
+        else
+          _legacy_clip_coupon(id: id, token: token, card_number: card_number).with_indifferent_access
+        end
       end
 
       def clip_coupon_by_tag(card_number, tag, token)
