@@ -1,4 +1,4 @@
-require "webstop-api/rest/consumers"
+require "webstop-api/rest/users"
 module WebstopApi
   module Interfaces
     module Users

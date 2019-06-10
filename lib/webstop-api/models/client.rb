@@ -4,6 +4,7 @@ require "webstop-api/interfaces/apps"
 require "webstop-api/interfaces/api_user_sessions"
 require "webstop-api/interfaces/cards"
 require "webstop-api/interfaces/consumers"
+require "webstop-api/interfaces/users"
 require "webstop-api/interfaces/consumer_sessions"
 require "webstop-api/interfaces/external_programs"
 require "webstop-api/interfaces/external_ids"
@@ -21,6 +22,7 @@ module WebstopApi
     include WebstopApi::Interfaces::ApiUserSessions
     include WebstopApi::Interfaces::Cards
     include WebstopApi::Interfaces::Consumers
+    include WebstopApi::Interfaces::Users
     include WebstopApi::Interfaces::ConsumerSessions
     include WebstopApi::Interfaces::Coupons
     include WebstopApi::Interfaces::ExternalPrograms
