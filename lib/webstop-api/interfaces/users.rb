@@ -4,8 +4,8 @@ module WebstopApi
     module Users
       include WebstopApi::REST::Consumers
 
-      def me(token)
-        _me(token)
+      def get_user_by_credentials(token)
+        _get_user_by_credentials(token)
       end
       
     end

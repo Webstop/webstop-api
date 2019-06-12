@@ -4,7 +4,7 @@ module WebstopApi
     module Users
       include WebstopApi::REST::Resources
 
-      def _me(token)
+      def _get_user_by_credentials(token)
         account = retailer_connection.get do |req|
           req.url "users/me", user_credentials: token
           req.headers['Content-Type'] = 'application/json'
