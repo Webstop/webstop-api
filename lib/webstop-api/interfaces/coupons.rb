@@ -16,6 +16,10 @@ module WebstopApi
         _get_coupon(id, token: token).with_indifferent_access[:coupon]
       end
 
+      def get_coupons_by_tag(card_number, tag, token)
+        _get_coupons_by_tag(card_number: card_number, tag: tag, token: token)
+      end
+
       def get_targeted_coupons(token)
         _get_targeted_coupons(token: token).with_indifferent_access["coupons"]
       end

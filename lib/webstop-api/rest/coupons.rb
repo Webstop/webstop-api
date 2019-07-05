@@ -43,6 +43,15 @@ module WebstopApi
         JSON.parse(coupon.body) rescue { coupon: {} }
       end
 
+      def _get_coupons_by_tag(options = {})
+        # `GET` /api/v2/retailers/:retailer_id/cards/:card_id/coupons/tag/:tag.json
+        coupons = v2_connection.get do |req|
+          req.url "cards/#{options[:card_number]}/coupons/tag/#{options[:tag]}.json", api_user_credentials: options[:token]
+          req.headers['Content-Type'] = 'application/json'
+        end
+        JSON.parse(coupons.body) rescue { coupons: [] }
+      end
+
       def _get_targeted_coupons(options = {})
         coupons = retailer_connection.get do |req|
           req.url "coupons/targeted", consumer_credentials: options[:token]
