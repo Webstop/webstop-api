@@ -50,7 +50,7 @@ module WebstopApi
           if !options[:card_number].nil?
             req.url "cards/#{options[:card_number]}/coupons/tag/#{options[:tag]}.json", api_user_credentials: options[:token]
           else
-            req.url "coupons/tag/#{options[:tag]}.json", api_user_credentials: options[:token]
+            req.url "coupons/tag/#{options[:tag]}.json", api_user_credentials: options[:token], src: 'db'
           end
           req.headers['Content-Type'] = 'application/json'
         end
