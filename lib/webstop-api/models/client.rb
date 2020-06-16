@@ -14,7 +14,7 @@ require "webstop-api/interfaces/programs"
 require "webstop-api/interfaces/shopping_lists"
 require "webstop-api/interfaces/stores"
 require "webstop-api/interfaces/subscription_lists"
-require "webstop-api/interfaces/tracking"
+require "webstop-api/interfaces/aye"
 
 module WebstopApi
   class Client
@@ -32,7 +32,7 @@ module WebstopApi
     include WebstopApi::Interfaces::ShoppingLists
     include WebstopApi::Interfaces::Stores
     include WebstopApi::Interfaces::SubscriptionLists
-    include WebstopApi::Interfaces::Tracking
+    include WebstopApi::Interfaces::Aye
     attr_accessor *Configuration::VALID_CONFIG_KEYS
 
     def initialize(options={})
