@@ -1,0 +1,53 @@
+#File.open('/myapp/delete_me.txt', 'w') do |file|
+#  file.puts caller.inspect
+#end
+
+require 'irb/completion' # tab completion
+
+unless ENV['SKIP_CUSTOM_IRBRC'] =~ /true|yes/i
+  IRB.conf[:SAVE_HISTORY]=100
+  IRB.conf[:HISTORY_FILE]="#{ENV["HOME"]}/.irb_history"
+  IRB.conf[:PROMPT][:SIMPLE] = {
+    :PROMPT_I => "\e[31m>>\e[m ",
+    :PROMPT_S => "-> ",
+    :PROMPT_C => "*> ",
+    :RETURN   => "\e[36m=>\e[m %s\n"
+  }
+  IRB.conf[:PROMPT_MODE]=:SIMPLE
+  IRB.conf[:AUTO_INDENT]=true
+
+  require 'rubygems'
+  require 'awesome_print'
+  AwesomePrint.irb! # comment-out this line to skip colorized/formatted output
+  puts "NOTE: to skip project custom .irbrc config set SKIP_CUSTOM_IRBRC env var to \"true\""
+else
+  puts "NOTE: skipping project custom .irbrc config because SKIP_CUSTOM_IRBRC env var is #{ENV['SKIP_CUSTOM_IRBRC'].inspect}"
+end
+
+puts "Ruby #{RUBY_VERSION}-p#{RUBY_PATCHLEVEL} (#{RUBY_RELEASE_DATE}) #{RUBY_PLATFORM}\n\n"
+
+puts "\nInstantiating and configuring '@core_api' and '@legacy_credentials' variables"
+puts "using the ENV vars in the .env file (passed through docker-compose.yml)."
+puts "Alternatively, these vars can be assigned by sourcing the .env file into"
+puts "the current shell with '. ./.env'.\n\n"
+
+puts "\e[33m@core_api = WebstopApi::Client.new\e[0m\n\n"
+puts "\e[33m@legacy_credentials = @core_api.legacy_login(
+    retailer_id: #{ENV['WEBSTOP_API_RETAILER_ID']},
+    type: '#{ENV['WEBSTOP_API_AUTH_TYPE']}',
+    login: '#{ENV['WEBSTOP_API_AUTH_LOGIN']}',
+    password: '#{ENV['WEBSTOP_API_AUTH_PASSWORD']}'
+)\e[0m\n\n"
+
+@core_api = WebstopApi::Client.new
+@legacy_credentials = nil
+begin
+  @legacy_credentials = @core_api.legacy_login(
+    retailer_id: ENV['WEBSTOP_API_RETAILER_ID'],
+    type: ENV['WEBSTOP_API_AUTH_TYPE'],
+    login: ENV['WEBSTOP_API_AUTH_LOGIN'],
+    password: ENV['WEBSTOP_API_AUTH_PASSWORD']
+  )
+rescue => e
+  puts "WARNING: @legacy_credentials - failed trying to login:\n  #{e.message}"
+end

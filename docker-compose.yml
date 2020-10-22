@@ -1,0 +1,35 @@
+version: '2'
+services:
+
+  gem:
+    container_name: webstop-api
+    build: .
+    command: echo "try running ./console instead!"
+    volumes:
+      - .:/code
+      - bundle:/usr/local/bundle
+      - .bash_history:/root/.bash_history
+      - .irb_history:/root/.irb_history
+      - .irbrc:/root/.irbrc
+    networks:
+      - core_default
+      - default
+    external_links:
+      - core-web:core-web
+    environment:
+      - SKIP_CUSTOM_IRBRC
+      - WEBSTOP_API_URL
+      - WEBSTOP_API_VERSION
+      - WEBSTOP_API_AUTH_TYPE
+      - WEBSTOP_API_AUTH_LOGIN
+      - WEBSTOP_API_AUTH_PASSWORD
+      - WEBSTOP_API_RETAILER_ID
+
+volumes:
+  bundle:
+
+networks:
+  default:
+    driver: bridge
+  core_default:
+    external: true

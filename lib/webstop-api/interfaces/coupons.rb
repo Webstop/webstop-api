@@ -4,6 +4,8 @@ module WebstopApi
     module Coupons
       include WebstopApi::REST::Coupons
 
+      # eg: @core_api.get_all_coupons(@legacy_credentials.api_user_credentials, "0000000198")
+      # eg: @core_api.get_all_coupons(@legacy_credentials.api_user_credentials)
       def get_all_coupons(token, card_number = nil)
         _get_all_coupons(token: token, card_number: card_number).with_indifferent_access["coupons"]
       end
@@ -16,7 +18,9 @@ module WebstopApi
         _get_coupon(id, token: token).with_indifferent_access[:coupon]
       end
 
-      def get_coupons_by_tag(card_number, tag, token)
+      # eg: @core_api.get_coupons_by_tag("0000000198", 'erie', @legacy_credentials.api_user_credentials)
+      # eg: @core_api.get_coupons_by_tag(nil, 'erie', nil)
+      def get_coupons_by_tag(card_number, tag, token = nil)
         _get_coupons_by_tag(card_number: card_number, tag: tag, token: token)
       end
 

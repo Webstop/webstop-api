@@ -69,9 +69,38 @@ This is used to obtain an api_user token, essentially our old version of consume
 
 ## Development
 
+### Non-Docker-based Dev
 After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).  (But, we don't deploy like this and the gem should be disabled for such deployment.)
+
+### Docker-based Dev
+
+After checking out the repo, run `./setup` to install gem dependencies and configure everything to run.  To open a nice interactive console session, run `./console`.  
+
+### Rubymine Integration
+
+After doing the docker-based setup above:
+
+1. Configure Docker Deployment Environment in RubyMine Settings
+
+    1. Open RubyMine Settings and navigate to 'Build, Execution, Deployment' > 'Docker'
+    2. If you don't already have a Docker configuration listed under the `+`/`-` buttons in the middle top then click the `+` button and select 'Docker for Mac' as the type.  Leave the rest of the defaults alone.
+    3. Click 'OK'
+
+   see: [https://www.jetbrains.com/help/ruby/docker.html](https://www.jetbrains.com/help/ruby/docker.html)
+
+2. Setup Docker as a remote interpreter
+
+    1. Open RubyMine Settings and navigate to 'Language & Frameworks' > 'Ruby SDK and Gems'
+    2. Check to see if you already have defined a remote SDK for this project by looking in the list of SDKs for one that looks like `"Remote: ruby-2.5.5-p157 (docker-compose://[/Users/<path to your project>/docker-compose.yml])"`.  If it exists already then simply select it.  Otherwise, continue with the following steps.
+    3. For the current project, click the `+` button and select `New remote...` from the drop-down menu
+    4. Select `docker-compose` at the top and then select "web" for the 'service'
+    5. Click 'OK'
+    6. Make sure that your newly created remote interpreter is selected then click 'OK' to dismiss the Settings window
+
+   Note that there may be a delay or some background processes that run for a minute synchronizing and indexing code and gems.
+
 
 ## Contributing
 
