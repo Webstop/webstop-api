@@ -7,7 +7,6 @@ module WebstopApi
       def _get_stores(options = {})
         stores = retailer_connection.get do |req|
           req.url "stores", consumer_credentials: options[:token]
-          req.headers["Content-Type"] = "application_json"
         end
         JSON.parse(stores.body).with_indifferent_access
       end

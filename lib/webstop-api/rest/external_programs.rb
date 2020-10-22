@@ -8,7 +8,6 @@ module WebstopApi
       def _all_external_programs
         programs = retailer_connection.get do |req|
           req.url "external_consumer_programs", consumer_credentials: options[:token]
-          req.headers['Content-Type'] = 'application/json'
         end
         JSON.parse(programs.body) rescue { external_ids: [] }
       end

@@ -4,9 +4,9 @@ module WebstopApi
     module Retailers
       include WebstopApi::REST::Resources
 
-      def _get_retailer
-        retailer = retailer_connection.get do |req|
-          req.headers["Content-Type"] = "application_json"
+      def _get_retailer(retailer_id = nil)
+        retailer = connection.get do |req|
+          req.url "retailers/#{retailer_id}"
         end
         JSON.parse(retailer.body)
       end
