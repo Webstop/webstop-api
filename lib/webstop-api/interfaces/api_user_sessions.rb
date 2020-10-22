@@ -6,6 +6,13 @@ module WebstopApi
     module ApiUserSessions
       include WebstopApi::REST::ApiUserSessions
 
+      # eg:
+      #   @api_user = @core_api.legacy_login(
+      #     retailer_id: 767,
+      #     type: 'Card',
+      #     login: 'greg+tops-api-user@webstop.com',
+      #     password: '******'
+      #   )
       def legacy_login(credentials)
         result = _legacy_login(credentials)
         ApiUser.new(result)
