@@ -1,5 +1,7 @@
 require "webstop-api/version"
 require "webstop-api/configuration"
+require "date"
+require "active_support/core_ext/hash/indifferent_access"
 
 module WebstopApi
 
