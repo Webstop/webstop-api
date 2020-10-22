@@ -8,3 +8,9 @@
 /spec/reports/
 /tmp/
 .idea
+
+\.irb_history
+\.bash_history
+
+.env
+.env_BAK

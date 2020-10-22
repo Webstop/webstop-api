@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+
+# Run this file before running the app for the first time.
+
+
+echo
+echo
+echo "=== webstop-api gem setup: configuring =================================="
+echo
+
+
+create_config_files () {
+  echo "  creating .env from .env_sample"
+  if [[ -f .env ]]; then
+    echo "    backing up existing .env to .env_BAK"
+    cp -f .env .env_BAK
+  fi
+  cp -f .env_sample .env
+  echo
+}
+
+if [[ -f .env ]]; then
+  read -p "  Do you want to replace your existing .env file? (y/n): " replace_config_files
+  if [[ "$replace_config_files" == "y" ]] || [[ "$replace_config_files" == "Y" ]]; then
+    create_config_files
+  fi
+else
+  if [[ ! -f .env ]]; then
+    create_config_files
+  fi
+fi
+
+
+echo
+echo "--- Building docker container -------------------------------------------"
+echo
+
+docker-compose build --no-cache
+
+
+echo
+echo "--- Installing Gems -----------------------------------------------------"
+echo
+
+docker-compose run --rm gem bundle install
+
+
+echo
+echo "=== Setup Finished! ====================================================="
+echo
+echo "If you don't see any errors above, try executing the ./console command to"
+echo "start interacting with the gem code."
+echo
+echo
