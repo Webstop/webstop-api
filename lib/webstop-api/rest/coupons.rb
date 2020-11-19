@@ -1,4 +1,6 @@
+require 'erb'
 require 'webstop-api/rest/resources'
+
 module WebstopApi
   module REST
     module Coupons
@@ -28,6 +30,17 @@ module WebstopApi
           end
         end
         JSON.parse(coupons.body) rescue { coupons: [] }
+      end
+
+      def _search_coupons(query, options = {})
+        coupons = v2_retailer_connection.get do |req|
+          query_param = ERB::Util.url_encode(query.to_json)
+          req.url "coupons/search.json?api_user_credentials=#{options[:token]}&query=#{query_param}"
+        end
+        if coupons.status != 200
+          raise JSON.parse(coupons.body)['errors'].join(',')
+        end
+        JSON.parse(coupons.body)
       end
 
       def _get_coupon(id, options = {})
