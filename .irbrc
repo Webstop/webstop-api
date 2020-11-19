@@ -49,5 +49,8 @@ begin
     password: ENV['WEBSTOP_API_AUTH_PASSWORD']
   )
 rescue => e
-  puts "WARNING: @legacy_credentials - failed trying to login:\n  #{e.message}"
+  puts "WARNING: @legacy_credentials - failed trying to login:\n  #{e.message}\n\n"
 end
+
+puts "Note that most \e[33m@core_api\e[0m methods require \e[33m@legacy_credentials.api_user_credentials\e[0m"
+puts "to be passed for authentication.\n\n"
