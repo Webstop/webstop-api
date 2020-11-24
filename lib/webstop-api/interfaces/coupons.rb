@@ -73,6 +73,15 @@ module WebstopApi
       def clip_coupon_by_tag(card_number, tag, token)
         _clip_coupon_by_tag(card_number: card_number, tag: tag, token: token)
       end
+
+      # Clip the offers identified by 'ids' to the specified 'card_number'.
+      #
+      # @param card_number [String] card number to clip the offers to
+      # @param ids [Array<Integer>] list of offer ids to clip to 'card_number'
+      # @param token [String] api_user_credentials auth
+      def clip_coupons_by_id(card_number, ids, token)
+        _clip_coupons_by_id(card_number: card_number, ids: ids, token: token)
+      end
     end
   end
 end
