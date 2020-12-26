@@ -54,3 +54,11 @@ end
 
 puts "Note that most \e[33m@core_api\e[0m methods require \e[33m@legacy_credentials.api_user_credentials\e[0m"
 puts "to be passed for authentication.\n\n"
+puts "Example:"
+puts "\e[33m@offers = @core_api.search_coupons(
+    {
+        tag: \"enroll-erie\",
+        scopes: [\"from_inmar\", \"future_display_end_date\"]
+    },
+    @legacy_credentials.api_user_credentials
+)\e[0m\n\n"
