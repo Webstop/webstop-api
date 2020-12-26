@@ -76,9 +76,24 @@ module WebstopApi
 
       # Clip the offers identified by 'ids' to the specified 'card_number'.
       #
+      # returns hash:
+      #   {
+      #     "coupons": [
+      #       {
+      #         "id": 45586,
+      #         "source_coupon_id": "585844",
+      #         "expire_date": "2019-05-25"
+      #         "clipped": true,
+      #         "clipped_count": 26,
+      #         "clipped_value": 4930
+      #       }
+      #     ]
+      #   }
+      #
       # @param card_number [String] card number to clip the offers to
       # @param ids [Array<Integer>] list of offer ids to clip to 'card_number'
       # @param token [String] api_user_credentials auth
+      # @return [Hash]
       def clip_coupons_by_id(card_number, ids, token)
         _clip_coupons_by_id(card_number: card_number, ids: ids, token: token)
       end

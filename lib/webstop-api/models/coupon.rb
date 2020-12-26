@@ -5,6 +5,6 @@ module WebstopApi
       :details, :fine_print, :image_path, :display_start_date, :display_end_date,
       :live_date, :expire_date, :tags, :retailer_sponsored, :min_purchase,
       :key_ingredient, :hidden, :sharable, :completed_immigration, :status,
-      :issuer_status
+      :issuer_status, :retailer_status
   end
 end
