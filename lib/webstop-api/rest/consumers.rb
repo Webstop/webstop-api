@@ -11,6 +11,19 @@ module WebstopApi
         JSON.parse(account.body)
       end
 
+      # eg:
+      #   _get_consumer(id: 241940, token: 'ewTB_0plpuwZ-cjhVpJz')
+      #   _get_consumer(email: 'fake@email.com', token: 'ewTB_0plpuwZ-cjhVpJz')
+      #
+      # Note that an email value can be passed as :id or an id as :email - both
+      # names are treated the same and can contain either value.
+      def _get_consumer(options = {})
+        account = v3_retailer_connection.get do |req|
+          req.url "consumers/#{options[:id] || options[:email]}", consumer_credentials: options[:token]
+        end
+        JSON.parse(account.body)
+      end
+
       def _update_me(options = {}, consumer_attributes = {})
         account = retailer_connection.put do |req|
           req.url "consumers/#{options[:webstop_id]}", consumer_credentials: options[:token]
