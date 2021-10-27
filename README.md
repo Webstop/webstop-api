@@ -30,7 +30,7 @@ The Webstop Api gem allows for interacting with the Webstop Api from a remote ra
   WebstopApi.configure do |config|
     config.endpoint = "http://lvh.me:3000"
     config.retailer_id = 767
-    config.api_version = "v3" #NOTE: This gem will only function properly with V3 of the Webstop API.
+    config.api_version = "v3" # NOTE: Various methods over-ride this value so that endpoints in diff versions can be used simultaneously.
   end
 ```
 
