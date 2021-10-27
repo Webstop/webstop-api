@@ -18,6 +18,13 @@ module WebstopApi
       #   consumer2 = @core_api.get_consumer(241940, admin_consumer.consumer_credentials)
       def get_consumer(id_or_email, api_token)
         response = _get_consumer(id: id_or_email, token: api_token)
+        if response['errors']
+          raise response['errors'].join('; ')
+        else
+          consumer = Consumer.new(response['consumer'])
+          consumer.card_number = response['consumer']['legacy_card_number']
+          consumer
+        end
       end
 
       def update_consumer(options = {}, attributes = {})

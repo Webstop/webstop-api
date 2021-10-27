@@ -78,7 +78,7 @@ rescue => e
 end
 
 puts "Note that most \e[33m@core_api\e[0m methods require \e[33m@legacy_credentials\e[0m"
-puts "to be passed for authentication.\n\n"
+puts "or \e[33m@credentials\e[0m to be passed for authentication.\n\n"
 puts "Example 1:"
 puts "\e[33m@offers = @core_api.search_coupons(
     {
@@ -89,4 +89,4 @@ puts "\e[33m@offers = @core_api.search_coupons(
 )\e[0m\n\n"
 
 puts "Example 2:"
-puts "\e[33m@core_api.get_consumer(241940, @credentials)\e[0m\n\n"
+puts "\e[33m@consumer = @core_api.get_consumer(241940, @credentials)\e[0m\n\n"
