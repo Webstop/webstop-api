@@ -41,6 +41,10 @@ module WebstopApi
         connection("/api/v1")
       end
 
+      def v3_connection
+        connection("/api/v3")
+      end
+
       def retailer_connection
         connection("/api/#{ WebstopApi.api_version }/retailers/#{WebstopApi.retailer_id}")
       end
@@ -53,6 +57,9 @@ module WebstopApi
         connection("/api/v2/retailers/#{WebstopApi.retailer_id}")
       end
 
+      def v3_retailer_connection
+        connection("/api/v3/retailers/#{WebstopApi.retailer_id}")
+      end
 
     end
   end
