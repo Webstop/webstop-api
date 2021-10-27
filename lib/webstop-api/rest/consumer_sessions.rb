@@ -5,7 +5,7 @@ module WebstopApi
       include WebstopApi::REST::Resources
 
       def _login(body = {})
-        account = connection.post do |req|
+        account = v3_connection.post do |req|
           req.url 'login'
           req.body = body.to_json
         end
@@ -13,12 +13,11 @@ module WebstopApi
       end
 
       def _logout(options = {})
-        response = connection.delete do |req|
+        response = v3_connection.delete do |req|
           req.url 'logout', consumer_credentials: options[:token]
         end
       end
 
-      
     end
   end
 end
