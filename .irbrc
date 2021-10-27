@@ -32,33 +32,61 @@ puts "Alternatively, these vars can be assigned by sourcing the .env file into"
 puts "the current shell with '. ./.env'.\n\n"
 
 puts "\e[33m@core_api = WebstopApi::Client.new\e[0m\n\n"
-puts "\e[33m@legacy_credentials = @core_api.legacy_login(
+puts "\e[33m@legacy_admin = @core_api.legacy_login(
     retailer_id: #{ENV['WEBSTOP_API_RETAILER_ID']},
     type: '#{ENV['WEBSTOP_API_AUTH_TYPE']}',
     login: '#{ENV['WEBSTOP_API_AUTH_LOGIN']}',
     password: '#{ENV['WEBSTOP_API_AUTH_PASSWORD']}'
 )\e[0m\n\n"
+puts "\e[33m@legacy_credentials = @legacy_admin.api_user_credentials\e[0m\n\n"
 
 @core_api = WebstopApi::Client.new
 @legacy_credentials = nil
 begin
-  @legacy_credentials = @core_api.legacy_login(
+  @legacy_admin = @core_api.legacy_login(
     retailer_id: ENV['WEBSTOP_API_RETAILER_ID'],
     type: ENV['WEBSTOP_API_AUTH_TYPE'],
     login: ENV['WEBSTOP_API_AUTH_LOGIN'],
     password: ENV['WEBSTOP_API_AUTH_PASSWORD']
   )
+  @legacy_credentials = @legacy_admin.api_user_credentials
 rescue => e
   puts "WARNING: @legacy_credentials - failed trying to login:\n  #{e.message}\n\n"
 end
 
-puts "Note that most \e[33m@core_api\e[0m methods require \e[33m@legacy_credentials.api_user_credentials\e[0m"
+puts "\e[33m@admin = @core_api.login(
+    consumer_session: {
+      email: #{ENV['WEBSTOP_API_AUTH_LOGIN']},
+      password: #{ENV['WEBSTOP_API_AUTH_PASSWORD']},
+      retailer_id: #{ENV['WEBSTOP_API_RETAILER_ID']}
+    }
+  )
+  @credentials = @admin.consumer_credentials\e[0m\n\n"
+
+@credentials = nil
+begin
+  @admin = @core_api.login(
+    consumer_session: {
+      email: ENV['WEBSTOP_API_AUTH_LOGIN'],
+      password: ENV['WEBSTOP_API_AUTH_PASSWORD'],
+      retailer_id: ENV['WEBSTOP_API_RETAILER_ID']
+    }
+  )
+  @credentials = @admin.consumer_credentials
+rescue => e
+  puts "WARNING: @credentials - failed trying to login:\n  #{e.message}\n\n"
+end
+
+puts "Note that most \e[33m@core_api\e[0m methods require \e[33m@legacy_credentials\e[0m"
 puts "to be passed for authentication.\n\n"
-puts "Example:"
+puts "Example 1:"
 puts "\e[33m@offers = @core_api.search_coupons(
     {
         tag: \"enroll-erie\",
         scopes: [\"from_inmar\", \"future_display_end_date\"]
     },
-    @legacy_credentials.api_user_credentials
+    @legacy_credentials
 )\e[0m\n\n"
+
+puts "Example 2:"
+puts "\e[33m@core_api.get_consumer(241940, @credentials)\e[0m\n\n"
