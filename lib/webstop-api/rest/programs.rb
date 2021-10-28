@@ -40,6 +40,13 @@ module WebstopApi
         JSON.parse(card.body)["card"] rescue nil
       end
 
+      def _add_consumer_to_program(options = {})
+        response = v3_retailer_connection.post do |req|
+          req.url "programs/#{options[:program_id]}/consumers/#{options[:consumer_id]}.json", consumer_credentials: options[:token]
+        end
+        JSON.parse(response.body)
+      end
+
     end
   end
 end
