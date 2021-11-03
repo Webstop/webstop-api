@@ -92,11 +92,38 @@ module WebstopApi
       #
       # @param card_number [String] card number to clip the offers to
       # @param ids [Array<Integer>] list of offer ids to clip to 'card_number'
-      # @param token [String] api_user_credentials auth
+      # @param token [String] api_user_credentials or consumer_credentials auth
       # @return [Hash]
       def clip_coupons_by_id(card_number, ids, token)
         _clip_coupons_by_id(card_number: card_number, ids: ids, token: token)
       end
+
+      # Clip the offers identified by 'ids' to the primary card number of the
+      # specified 'consumer_id'.  Note that this api requires a token from a
+      # consumer with retailer admin privileges.
+      #
+      # returns hash:
+      #   {
+      #     "coupons": [
+      #       {
+      #         "id": 45586,
+      #         "source_coupon_id": "585844",
+      #         "expire_date": "2019-05-25"
+      #         "clipped": true,
+      #         "clipped_count": 26,
+      #         "clipped_value": 4930
+      #       }
+      #     ]
+      #   }
+      #
+      # @param consumer_id [int] id of the consumer to clip the offers to
+      # @param ids [Array<Integer>] list of offer ids to clip to 'card_number'
+      # @param token [String] consumer_credentials auth
+      # @return [Hash]
+      def clip_coupons_by_id_for_consumer(consumer_id, ids, token)
+        _clip_coupons_by_id_for_consumer(consumer_id: consumer_id, ids: ids, token: token)
+      end
+
     end
   end
 end

@@ -33,7 +33,7 @@ module WebstopApi
       end
 
       def _search_coupons(query, options = {})
-        coupons = v2_retailer_connection.get do |req|
+        coupons = retailer_connection.get do |req|
           query_param = ERB::Util.url_encode(query.to_json)
           req.url "coupons/search.json?api_user_credentials=#{options[:token]}&query=#{query_param}"
         end
@@ -92,8 +92,15 @@ module WebstopApi
       end
 
       def _clip_coupons_by_id(options = {})
-        coupons = v2_retailer_connection.post do |req|
-          req.url "cards/#{options[:card_number]}/coupons/#{options[:ids].join(',')}/clip_multiple.json", api_user_credentials: options[:token]
+        coupons = retailer_connection.post do |req|
+          req.url "cards/#{options[:card_number]}/coupons/#{options[:ids].join(',')}/clip_multiple.json", api_user_credentials: options[:token], consumer_credentials: options[:token]
+        end
+        JSON.parse(coupons.body)
+      end
+
+      def _clip_coupons_by_id_for_consumer(options = {})
+        coupons = v3_retailer_connection.post do |req|
+          req.url "consumers/#{options[:consumer_id]}/coupons/#{options[:ids].join(',')}/clip_multiple.json", consumer_credentials: options[:token], consumer_credentials: options[:token]
         end
         JSON.parse(coupons.body)
       end
