@@ -44,6 +44,24 @@ module WebstopApi
         end
       end
 
+      # Get consumers for specified program.
+      #
+      # @param program_id [int] identifies existing program
+      # @return [Array<Consumer>] list of api consumers
+      # @raise [RuntimeException] message describing failure
+      def consumers_for_program(program_id, api_token)
+        response = _consumers_for_program(program_id: program_id, token: api_token)
+        if response.is_a?(Array)
+          response.collect{|consumer| Consumer.new(consumer)}
+        else
+          if response['errors']
+            raise response['errors'].join('; ')
+          else
+            raise "failed to parse response to consumers_for_program()"
+          end
+        end
+      end
+
     end
   end
 end

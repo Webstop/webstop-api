@@ -47,6 +47,13 @@ module WebstopApi
         JSON.parse(response.body)
       end
 
+      def _consumers_for_program(options = {})
+        response = v3_retailer_connection.get do |req|
+          req.url "programs/#{options[:program_id]}/consumers.json", consumer_credentials: options[:token]
+        end
+        JSON.parse(response.body)["consumers"] rescue []
+      end
+
     end
   end
 end
