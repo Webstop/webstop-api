@@ -26,17 +26,17 @@ end
 
 puts "Ruby #{RUBY_VERSION}-p#{RUBY_PATCHLEVEL} (#{RUBY_RELEASE_DATE}) #{RUBY_PLATFORM}\n\n"
 
-puts "\nInstantiating and configuring '@core_api' and '@legacy_credentials' variables"
-puts "using the ENV vars in the .env file (passed through docker-compose.yml)."
-puts "Alternatively, these vars can be assigned by sourcing the .env file into"
-puts "the current shell with '. ./.env'.\n\n"
+puts "\nInstantiating and configuring '@core_api', '@legacy_credentials', "
+puts "and '@credentials' variables using the ENV vars in the .env file (passed"
+puts "through docker-compose.yml). Alternatively, these vars can be assigned by"
+puts "sourcing the .env file into the current shell with '. ./.env'.\n\n"
 
 puts "\e[33m@core_api = WebstopApi::Client.new\e[0m\n\n"
 puts "\e[33m@legacy_admin = @core_api.legacy_login(
     retailer_id: #{ENV['WEBSTOP_API_RETAILER_ID']},
     type: '#{ENV['WEBSTOP_API_AUTH_TYPE']}',
     login: '#{ENV['WEBSTOP_API_AUTH_LOGIN']}',
-    password: '#{ENV['WEBSTOP_API_AUTH_PASSWORD']}'
+    password: '#{ENV['WEBSTOP_V1_API_AUTH_PASSWORD']}'
 )\e[0m\n\n"
 puts "\e[33m@legacy_credentials = @legacy_admin.api_user_credentials\e[0m\n\n"
 
@@ -47,7 +47,7 @@ begin
     retailer_id: ENV['WEBSTOP_API_RETAILER_ID'],
     type: ENV['WEBSTOP_API_AUTH_TYPE'],
     login: ENV['WEBSTOP_API_AUTH_LOGIN'],
-    password: ENV['WEBSTOP_API_AUTH_PASSWORD']
+    password: ENV['WEBSTOP_V1_API_AUTH_PASSWORD']
   )
   @legacy_credentials = @legacy_admin.api_user_credentials
 rescue => e
@@ -56,19 +56,19 @@ end
 
 puts "\e[33m@admin = @core_api.login(
     consumer_session: {
-      email: #{ENV['WEBSTOP_API_AUTH_LOGIN']},
-      password: #{ENV['WEBSTOP_API_AUTH_PASSWORD']},
-      retailer_id: #{ENV['WEBSTOP_API_RETAILER_ID']}
+        email: '#{ENV['WEBSTOP_API_AUTH_LOGIN']}',
+        password: '#{ENV['WEBSTOP_V3_API_AUTH_PASSWORD']}',
+        retailer_id: '#{ENV['WEBSTOP_API_RETAILER_ID']}'
     }
-  )
-  @credentials = @admin.consumer_credentials\e[0m\n\n"
+)
+@credentials = @admin.consumer_credentials\e[0m\n\n"
 
 @credentials = nil
 begin
   @admin = @core_api.login(
     consumer_session: {
       email: ENV['WEBSTOP_API_AUTH_LOGIN'],
-      password: ENV['WEBSTOP_API_AUTH_PASSWORD'],
+      password: ENV['WEBSTOP_V3_API_AUTH_PASSWORD'],
       retailer_id: ENV['WEBSTOP_API_RETAILER_ID']
     }
   )

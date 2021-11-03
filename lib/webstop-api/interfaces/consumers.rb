@@ -12,7 +12,7 @@ module WebstopApi
       #   @core_api = WebstopApi::Client.new
       #   admin_consumer = @core_api.login(
       #     email: ENV['WEBSTOP_API_AUTH_LOGIN'],
-      #     password: ENV['WEBSTOP_API_AUTH_PASSWORD']
+      #     password: ENV['WEBSTOP_V3_API_AUTH_PASSWORD']
       #   )
       #   consumer = @core_api.get_consumer('test1@danlynn.org', admin_consumer.consumer_credentials)
       #   consumer2 = @core_api.get_consumer(241940, admin_consumer.consumer_credentials)

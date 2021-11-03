@@ -11,14 +11,14 @@ module WebstopApi
       #   @consumer = @core_api.login(
       #     consumer_session: {
       #       email: ENV['WEBSTOP_API_AUTH_LOGIN'],
-      #       password: ENV['WEBSTOP_API_AUTH_PASSWORD'],
+      #       password: ENV['WEBSTOP_V3_API_AUTH_PASSWORD'],
       #       retailer_id: 767
       #     }
       #   )
       #   -or-
       #   @consumer = @core_api.login(
       #     email: ENV['WEBSTOP_API_AUTH_LOGIN'],
-      #     password: ENV['WEBSTOP_API_AUTH_PASSWORD']
+      #     password: ENV['WEBSTOP_V3_API_AUTH_PASSWORD']
       #   )
       #
       # Note that the `retailer_id` is optional and will default to
