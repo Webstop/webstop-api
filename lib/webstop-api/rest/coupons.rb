@@ -100,7 +100,7 @@ module WebstopApi
 
       def _clip_coupons_by_id_for_consumer(options = {})
         coupons = v3_retailer_connection.post do |req|
-          req.url "consumers/#{options[:consumer_id]}/coupons/#{options[:ids].join(',')}/clip_multiple.json", consumer_credentials: options[:token], consumer_credentials: options[:token]
+          req.url "consumers/#{options[:consumer_id]}/coupons/#{options[:ids].join(',')}/clip_multiple.json", consumer_credentials: options[:token]
         end
         JSON.parse(coupons.body)
       end
