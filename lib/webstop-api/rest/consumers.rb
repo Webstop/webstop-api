@@ -58,8 +58,11 @@ module WebstopApi
           req.url "consumers", consumer_credentials: options[:token]
           req.body = consumer_attributes.to_json
         end
-        raise "#{response.status}: #{response.reason_phrase}" if response.status >= 400
-        JSON.parse(response.body)
+        parsed_response = JSON.parse(response.body)
+        if response.status >= 400 && parsed_response['error'].blank?
+          raise "#{response.status}: #{response.reason_phrase}"
+        end
+        parsed_response
       end
 
     end
