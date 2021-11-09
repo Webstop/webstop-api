@@ -44,10 +44,28 @@ module WebstopApi
         response = _update_me(options, attributes)
       end
 
+      # Create new consumer.  If 'current_user' is Boolean then do something
+      # weird and use @token attribute for credentials.  Otherwise, if a String
+      # is passed in 'current_user' then use that string as the credentials.
+      #
+      # @param attributes [Hash] hash of consumer attributes
+      # @param current_user [Boolean|String] either pass credentials or true if
+      #                   credentials should be retrieved from @token attribute
       def create_consumer(attributes = {}, current_user = false)
-        user_credentials = { token: current_user == true ? token : nil }
-        response = _create_consumer(attributes, user_credentials)
-        @token = response["consumer"]["consumer_credentials"] unless current_user
+        if current_user.is_a?(Boolean)
+          user_credentials = { token: current_user == true ? token : nil }
+          response = _create_consumer(attributes, user_credentials)
+          @token = response["consumer"]["consumer_credentials"] unless current_user
+        else
+          response = _create_consumer(attributes, token: current_user)
+          if response['errors']
+            raise response['errors'].join('; ')
+          else
+            consumer = Consumer.new(response['consumer'])
+            consumer.card_number = response['consumer']['legacy_card_number']
+            consumer
+          end
+        end
       end
 
       def token
