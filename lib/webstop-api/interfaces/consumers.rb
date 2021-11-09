@@ -52,11 +52,11 @@ module WebstopApi
       # @param current_user [Boolean|String] either pass credentials or true if
       #                   credentials should be retrieved from @token attribute
       def create_consumer(attributes = {}, current_user = false)
-        if current_user.is_a?(Boolean)
+        if [true, false].include?(current_user) # check if boolean
           user_credentials = { token: current_user == true ? token : nil }
           response = _create_consumer(attributes, user_credentials)
           @token = response["consumer"]["consumer_credentials"] unless current_user
-        else
+        else # else assume 'current_user' is the credentials token string
           response = _create_consumer(attributes, token: current_user)
           if response['errors']
             raise response['errors'].join('; ')
