@@ -58,12 +58,14 @@ module WebstopApi
           @token = response["consumer"]["consumer_credentials"] unless current_user
         else # else assume 'current_user' is the credentials token string
           response = _create_consumer(attributes, token: current_user)
-          if response['errors']
-            raise response['errors'].join('; ')
-          else
+          if response['error']
+            raise response['error']
+          elsif response['consumer']
             consumer = Consumer.new(response['consumer'])
             consumer.card_number = response['consumer']['legacy_card_number']
             consumer
+          else
+            raise "Could not parse consumer from api response: #{response.inspect}"
           end
         end
       end

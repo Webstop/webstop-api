@@ -54,11 +54,12 @@ module WebstopApi
       end
 
       def _create_consumer(consumer_attributes = {}, options = {})
-        account = retailer_connection.post do |req|
+        response = retailer_connection.post do |req|
           req.url "consumers", consumer_credentials: options[:token]
           req.body = consumer_attributes.to_json
         end
-        JSON.parse(account.body)
+        raise "#{response.status}: #{response.reason_phrase}" if response.status >= 400
+        JSON.parse(response.body)
       end
 
     end
