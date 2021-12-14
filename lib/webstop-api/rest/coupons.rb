@@ -35,7 +35,12 @@ module WebstopApi
       def _search_coupons(query, options = {})
         coupons = retailer_connection.get do |req|
           query_param = ERB::Util.url_encode(query.to_json)
-          req.url "coupons/search.json?api_user_credentials=#{options[:token]}&query=#{query_param}"
+          if WebstopApi.api_version =~ /v3/i
+            credentials_name = 'consumer_credentials'
+          else
+            credentials_name = 'api_user_credentials'
+          end
+          req.url "coupons/search.json?#{credentials_name}=#{options[:token]}&query=#{query_param}"
         end
         if coupons.status != 200
           raise JSON.parse(coupons.body)['errors'].join(',')
