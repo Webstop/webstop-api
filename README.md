@@ -24,15 +24,38 @@ Or install it yourself as:
 
 The Webstop Api gem allows for interacting with the Webstop Api from a remote rails app as long as certain configuration options are present.  In order to use this gem properly, please do the following:
 
-1.  Create an initializer file in your remote app.  An example would be `config/initializers/webstop.rb`
-2.  Create a configuration block to initialize the gem like so:
-```ruby
-  WebstopApi.configure do |config|
-    config.endpoint = "http://lvh.me:3000"
-    config.retailer_id = 767
-    config.api_version = "v3" # NOTE: Various methods over-ride this value so that endpoints in diff versions can be used simultaneously.
-  end
-```
+1. Create an initializer file in your remote app.  An example would be `config/initializers/webstop.rb`
+2. Create a configuration block to initialize the gem like so:
+   ```ruby
+     WebstopApi.configure do |config|
+       config.endpoint = "http://lvh.me:3000"
+       config.retailer_id = 767
+       config.api_version = "v3" # NOTE: Various methods ignore this setting - for example when a endpoint exists only in v3 and not in v2
+     end
+   ```
+3. Create an api client instance to use for subsequent requests:
+   ```ruby
+     @api_client =    WebstopApi::Client.new
+     @v3_api_client = WebstopApi::Client.new(api_version: 'v3')
+   ```
+   Note that `api_client` in this example uses all the defaults set in the initializer.  However, `v3_api_client` uses all those defaults then overrides the `api_version` for just this specific instance.
+
+4. Get credentials for use in subsequent requests:
+   ```ruby
+     @admin = @core_api.login(
+       consumer_session: {
+         email: 'fake-admin@webstop.com',
+         password: 'some-fake-password',
+         retailer_id: '767'
+       }
+     )
+     @admin_credentials = @admin.consumer_credentials
+   ```
+
+5. Invoke endpoints:
+   ```ruby
+     @consumer = @v3_api_client.get_consumer(241940, @admin_credentials)
+   ```
 
 You are now ready to use the gem.
 

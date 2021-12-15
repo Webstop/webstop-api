@@ -21,13 +21,15 @@ module WebstopApi
       #     password: ENV['WEBSTOP_V3_API_AUTH_PASSWORD']
       #   )
       #
-      # Note that the `retailer_id` is optional and will default to
-      # WebstopApi.retailer_id if not provided.
+      # Note that the `retailer_id` is optional and will default to the default
+      # retailer_id set in WebstopApi.configure{|config| config.retailer_id = 767}
+      # or to the retailer_id set when creating the new client:
+      # @api = WebstopApi.client.new(retailer_id: 767)
       def login(credentials)
         unless credentials[:consumer_session] # wrap in :consumer_session if not already
           credentials = {consumer_session: credentials}
         end
-        credentials[:consumer_session][:retailer_id] ||= WebstopApi.retailer_id # default retailer_id
+        credentials[:consumer_session][:retailer_id] ||= self.retailer_id # default retailer_id
         response = _login(credentials)
         error = response.dig("error")
         if error

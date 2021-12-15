@@ -21,10 +21,9 @@ module WebstopApi
         e
       end
 
-      def connection(path = "/api/#{WebstopApi.api_version}")
-        # puts "=== connection('#{path}')"
+      def connection(path = "/api/#{self.api_version}")
         @@connection_cache ||= {}
-        @@connection_cache[path] ||= Faraday.new(:url => WebstopApi.endpoint + path) do |faraday|
+        @@connection_cache[path] ||= Faraday.new(:url => self.endpoint + path) do |faraday|
           # yields Faraday instance to be config'd (make adapter last)
           # see: https://github.com/lostisland/faraday
           # faraday.response :logger # log requests & responses to stdout
@@ -46,19 +45,19 @@ module WebstopApi
       end
 
       def retailer_connection
-        connection("/api/#{ WebstopApi.api_version }/retailers/#{WebstopApi.retailer_id}")
+        connection("/api/#{ self.api_version }/retailers/#{self.retailer_id}")
       end
 
       def v1_retailer_connection
-        connection("/api/v1/retailers/#{WebstopApi.retailer_id}")
+        connection("/api/v1/retailers/#{self.retailer_id}")
       end
 
       def v2_retailer_connection
-        connection("/api/v2/retailers/#{WebstopApi.retailer_id}")
+        connection("/api/v2/retailers/#{self.retailer_id}")
       end
 
       def v3_retailer_connection
-        connection("/api/v3/retailers/#{WebstopApi.retailer_id}")
+        connection("/api/v3/retailers/#{self.retailer_id}")
       end
 
     end
