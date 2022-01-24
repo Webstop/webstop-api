@@ -14,6 +14,10 @@ module WebstopApi
         _all_programs_by_card_number(token: api_token, card_number: card_number)
       end
 
+      def get_programs_by_consumer(consumer_id, api_token)
+        _all_programs_by_consumer(token: api_token, consumer_id: consumer_id)
+      end
+
       def get_program(program_id, api_token)
         program = _program(program_id: program_id, token: api_token)
         Program.new(program)
