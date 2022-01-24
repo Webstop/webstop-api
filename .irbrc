@@ -54,7 +54,8 @@ rescue => e
   puts "WARNING: @legacy_credentials - failed trying to login:\n  #{e.message}\n\n"
 end
 
-puts "\e[33m@admin = @core_api.login(
+puts "\e[33m@core_api_v3 = WebstopApi::Client.new(api_version: \"v3\")\e[0m\n\n"
+puts "\e[33m@admin = @core_api_v3.login(
     consumer_session: {
         email: '#{ENV['WEBSTOP_API_AUTH_LOGIN']}',
         password: '#{ENV['WEBSTOP_V3_API_AUTH_PASSWORD']}',
@@ -63,9 +64,10 @@ puts "\e[33m@admin = @core_api.login(
 )
 @credentials = @admin.consumer_credentials\e[0m\n\n"
 
+@core_api_v3 = WebstopApi::Client.new(api_version: "v3")
 @credentials = nil
 begin
-  @admin = @core_api.login(
+  @admin = @core_api_v3.login(
     consumer_session: {
       email: ENV['WEBSTOP_API_AUTH_LOGIN'],
       password: ENV['WEBSTOP_V3_API_AUTH_PASSWORD'],
@@ -89,4 +91,4 @@ puts "\e[33m@offers = @core_api.search_coupons(
 )\e[0m\n\n"
 
 puts "Example 2:"
-puts "\e[33m@consumer = @core_api.get_consumer(241940, @credentials)\e[0m\n\n"
+puts "\e[33m@consumer = @core_api_v3.get_consumer(241940, @credentials)\e[0m\n\n"
