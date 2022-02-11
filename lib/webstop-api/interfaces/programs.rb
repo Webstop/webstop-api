@@ -5,6 +5,7 @@ module WebstopApi
     module Programs
       include WebstopApi::REST::Programs
 
+      # supports both v2 and v3
       def get_programs(api_token)
         programs = _all_programs(token: api_token)
         programs.map{ |program| Program.new(program) }

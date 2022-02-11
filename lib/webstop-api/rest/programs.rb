@@ -6,8 +6,9 @@ module WebstopApi
       include WebstopApi::REST::Resources
 
       def _all_programs(options = {})
-        programs = v2_retailer_connection.get do |req|
-          req.url "programs.json", api_user_credentials: options[:token]
+        auth_param = WebstopApi.api_version == "v3" ? { consumer_credentials: options[:token] } : { api_user_credentials: options[:token] }
+        programs = retailer_connection.get do |req|
+          req.url "programs.json", auth_param
         end
         JSON.parse(programs.body)["programs"] rescue []
       end
