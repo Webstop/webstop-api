@@ -42,6 +42,15 @@ module WebstopApi
 
       def update_consumer(options = {}, attributes = {})
         response = _update_me(options, attributes)
+        if response['error']
+          raise response['error']
+        elsif response['consumer']
+          consumer = Consumer.new(response['consumer'])
+          consumer.card_number = response['consumer']['legacy_card_number']
+          consumer
+        else
+          raise "Could not parse consumer from api response: #{response.inspect}"
+        end
       end
 
       # Create new consumer.  If 'current_user' is Boolean then do something
