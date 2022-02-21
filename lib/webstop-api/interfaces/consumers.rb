@@ -40,6 +40,20 @@ module WebstopApi
         end
       end
 
+      def get_consumers_by_card_numbers(card_numbers, api_token)
+        response = _get_consumer_by_card_number(card_numbers: card_numbers, token: api_token)
+        return nil if response.nil?
+        if response['errors']
+          raise response['errors'].join('; ')
+        else
+          consumers = response['consumers'].collect do |consumer|
+            new_consumer = WebstopApi::Consumer.new(consumer)
+            new_consumer.card_number = consumer['legacy_card_number']
+            new_consumer
+          end
+        end
+      end
+
       def update_consumer(options = {}, attributes = {})
         response = _update_me(options, attributes)
       end

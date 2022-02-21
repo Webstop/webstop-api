@@ -30,13 +30,16 @@ module WebstopApi
       end
 
       def _get_consumer_by_card_number(options = {})
+        params = { consumer_credentials: options[:token] }
+        params[:card_number] = options[:card_number] unless options[:card_number].nil?
+        params[:card_numbers] = options[:card_numbers] unless options[:card_numbers].nil?
         response = v3_retailer_connection.get do |req|
-          req.url "consumers/by_card_number.json", card_number: options[:card_number], consumer_credentials: options[:token]
+          req.url("consumers/by_card_number.json", params)
         end
         if response.success?
           JSON.parse(response.body)
         else
-          return nil if response.status == 404
+          return nil if response.status == 404 # if multi then [] with 200 status
           raise "#{response.status}: #{response.reason_phrase}"
         end
       end
