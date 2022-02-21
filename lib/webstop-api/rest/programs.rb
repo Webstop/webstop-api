@@ -10,7 +10,7 @@ module WebstopApi
         programs = retailer_connection.get do |req|
           req.url "programs.json", auth_param
         end
-        JSON.parse(programs.body)["programs"] rescue []
+        JSON.parse(programs.body)["programs"] rescue [] # TODO: do some better error handling
       end
 
       def _all_programs_by_card_number(options = {})
