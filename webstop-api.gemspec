@@ -29,8 +29,8 @@ Gem::Specification.new do |spec|
   spec.add_dependency "faraday"
   spec.add_dependency "net-http-persistent" # better faraday performance
   spec.add_dependency "activesupport", '~> 5.0'
-  spec.add_development_dependency "bundler", "~> 2.0.2"
-  spec.add_development_dependency "rake", "~> 12.3.2"
+  spec.add_development_dependency "bundler", "2.0.2"
+  spec.add_development_dependency "rake", "12.3.0"
   spec.add_development_dependency "pry-rails"
-  spec.add_development_dependency 'awesome_print', '~> 1.8.0'
+  spec.add_development_dependency 'awesome_print', '1.8.0'
 end

@@ -31,18 +31,36 @@ else
 fi
 
 
+# For each external network defined in docker-compose.yml, create it if it
+# doesn't already exist.
+create_missing_external_networks () {
+  networks=$(grep -B 1 'external:\s*true' docker-compose.yml | egrep -v 'external:\s*true' | egrep -o '(\w|-)+')
+  while IFS= read -r network; do # for each linefeed delimited line in $networks string
+    if [[ $(docker network ls --filter "name=$network" -q | wc -l) -eq 0 ]]; then
+      echo
+      echo "  Creating missing external docker network: $network"
+      docker network create $network > /dev/null 2>&1 # ignore network id output
+    fi
+  done <<< "$networks"
+}
+
+create_missing_external_networks
+
+
 echo
 echo "--- Building docker container -------------------------------------------"
 echo
-
-docker-compose build --no-cache
+read -p "    (Re)build gem image? (y/n): " rebuild_images
+if [[ "$rebuild_images" == "y" ]] || [[ "$rebuild_images" == "Y" ]]; then
+  docker compose build --no-cache
+fi
 
 
 echo
 echo "--- Installing Gems -----------------------------------------------------"
 echo
 
-docker-compose run --rm gem bundle install
+docker compose run --rm gem bundle install
 
 
 echo
