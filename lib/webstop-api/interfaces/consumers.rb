@@ -22,9 +22,7 @@ module WebstopApi
         if response['errors']
           raise response['errors'].join('; ')
         else
-          consumer = Consumer.new(response['consumer'])
-          consumer.card_number = response['consumer']['legacy_card_number']
-          consumer
+          parse_consumer(response['consumer'])
         end
       end
 
@@ -34,9 +32,7 @@ module WebstopApi
         if response['errors']
           raise response['errors'].join('; ')
         else
-          consumer = Consumer.new(response['consumer'])
-          consumer.card_number = response['consumer']['legacy_card_number']
-          consumer
+          parse_consumer(response['consumer'])
         end
       end
 
@@ -47,9 +43,7 @@ module WebstopApi
           raise response['errors'].join('; ')
         else
           consumers = response['consumers'].collect do |consumer|
-            new_consumer = WebstopApi::Consumer.new(consumer)
-            new_consumer.card_number = consumer['legacy_card_number']
-            new_consumer
+            parse_consumer(consumer)
           end
         end
       end
@@ -59,9 +53,7 @@ module WebstopApi
         if response['error']
           raise response['error']
         elsif response['consumer']
-          consumer = Consumer.new(response['consumer'])
-          consumer.card_number = response['consumer']['legacy_card_number']
-          consumer
+          parse_consumer(response['consumer'])
         else
           raise "Could not parse consumer from api response: #{response.inspect}"
         end
@@ -84,9 +76,7 @@ module WebstopApi
           if response['error']
             raise response['error']
           elsif response['consumer']
-            consumer = Consumer.new(response['consumer'])
-            consumer.card_number = response['consumer']['legacy_card_number']
-            consumer
+            parse_consumer(response['consumer'])
           else
             raise "Could not parse consumer from api response: #{response.inspect}"
           end
@@ -96,6 +86,21 @@ module WebstopApi
       def token
         @token
       end
+
+      private
+
+      # Parse consumer hash into new Consumer instance.  The consumer.primary_card_number
+      # is parsed from the external_ids.  The consumer.card_number is assigned from
+      # the primary_card_number if it exists - else defaults to legacy_card_number.
+      #
+      # @param consumer_hash [Hash] attributes parsed from JSON for consumer (no root "consumer" node)
+      def parse_consumer(consumer_hash)
+        consumer = Consumer.new(consumer_hash)
+        consumer.primary_card_number = consumer_hash["external_ids"].find{|external_id| external_id["primary_of_source"]}["card_number"] rescue nil
+        consumer.card_number = consumer.primary_card_number || consumer.legacy_card_number
+        consumer
+      end
+
     end
   end
 end
