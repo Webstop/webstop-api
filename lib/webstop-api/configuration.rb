@@ -4,7 +4,7 @@ module WebstopApi
     VALID_OPTIONS_KEYS    = [:api_key, :format, :access_key, :retailer_id, :api_version].freeze
     VALID_CONFIG_KEYS     = VALID_CONNECTION_KEYS + VALID_OPTIONS_KEYS
 
-    DEFAULT_ENDPOINT     = 'http://api.grocerywebsite.com'
+    DEFAULT_ENDPOINT     = 'https://api.grocerywebsite.com'
     DEFAULT_METHOD       = :get
     DEFAULT_ACCESS_KEY   = nil
     DEFAULT_RETAILER_ID  = nil
