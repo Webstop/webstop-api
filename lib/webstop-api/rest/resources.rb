@@ -1,5 +1,6 @@
 require 'webstop-api/utilities/object_factory'
 require 'faraday'
+require 'faraday/net_http_persistent'
 
 module WebstopApi
 

@@ -17,6 +17,7 @@ module WebstopApi
   autoload :Program, "webstop-api/models/program"
   autoload :ShoppingList, "webstop-api/models/shopping_list"
   autoload :Retailer, "webstop-api/models/retailer"
+  autoload :Store, "webstop-api/models/store"
 
   extend Configuration
 end
