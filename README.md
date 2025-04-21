@@ -101,6 +101,19 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 After checking out the repo, run `./setup` to install gem dependencies and configure everything to run.  To open a nice interactive console session, run `./console`.  
 
+### Deployment
+
+1. Bump gem version in /lib/webstop-api/version.rb
+2. Commit all changes to your local repo
+3. Tag the current commit with the bumped version: `git tag 0.5.23`
+4. Push the tag to the webstop repo: `git push webstop 0.5.23`
+
+The tag is critical for being able to install a specific version in your Gemfile directly from github via:
+
+   ```ruby
+   gem "webstop-api", git: 'https://x-oauth-basic@github.com/Webstop/webstop-api.git', tag: '0.5.23'
+   ```
+
 ### Rubymine Integration
 
 After doing the docker-based setup above:
