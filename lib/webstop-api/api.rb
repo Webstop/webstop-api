@@ -5,7 +5,9 @@ require 'webstop-api/rest/users'
 require 'webstop-api/rest/external_programs'
 require 'webstop-api/rest/coupons'
 require 'webstop-api/rest/shopping_lists'
+require 'webstop-api/rest/stores'
 require 'webstop-api/rest/subscription_lists'
+
 
 module WebstopApi
 
@@ -17,6 +19,7 @@ module WebstopApi
     include WebstopApi::REST::Coupons
     include WebstopApi::REST::ExternalPrograms
     include WebstopApi::REST::ShoppingLists
+    include WebstopApi::REST::Stores
     include WebstopApi::REST::SubscriptionLists
   end
 end
