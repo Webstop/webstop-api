@@ -1,3 +1,3 @@
 module WebstopApi
-  VERSION = "0.5.23"
+  VERSION = "0.5.25"
 end

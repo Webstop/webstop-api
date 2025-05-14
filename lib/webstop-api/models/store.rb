@@ -12,27 +12,9 @@ module WebstopApi
     :closed_monday, :closed_tuesday, :closed_wednesday, :closed_thursday, :closed_friday, 
     :closed_saturday, :AdZoneRetailer, :store_owner_id
 
-    def initialize(api_data = {})
-      @store_number = api_data.dig("storeNumber").to_i
-      @billing_name = api_data.dig("storeName")
-      @address_1 = api_data.dig("address", "address1")
-      @address_2 = api_data.dig("address", "address2")
-      @city = api_data.dig("address", "cityOrTown")
-      @state = api_data.dig("address", "stateOrProvince")
-      @zip = api_data.dig("address", "postalOrZipCode").gsub('-', '')
-      @latitude = api_data.dig("geo", "lat").to_s
-      @longitude = api_data.dig("geo", "lng").to_s
-      @phone = format_phone(api_data.dig("phone"))
-
-      # Map open and close times
-      %w[sunday monday tuesday wednesday thursday friday saturday].each do |day|
-        instance_variable_set("@#{day}_open", api_data.dig("regularHours", day, "openTime"))
-        instance_variable_set("@#{day}_close", api_data.dig("regularHours", day, "closeTime"))
-        instance_variable_set("@closed_#{day}", api_data.dig("regularHours", day, "isClosed"))
-        
-        # Handle 24-hour stores
-        open_24_hours = api_data.dig("regularHours", day, "label") == "12:01AM-12:01AM"
-        instance_variable_set("@open_24_hours_#{day}", open_24_hours)
+    def initialize(store_data = {})
+      store_data.each do |key, value|
+        instance_variable_set("@#{key}", value)
       end
     end
 
