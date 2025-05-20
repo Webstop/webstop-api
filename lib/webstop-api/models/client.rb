@@ -42,5 +42,23 @@ module WebstopApi
         send("#{key}=", merged_options[key])
       end
     end
+
+    
+    # get reference to core_api instance (using ENV config)
+    def self.v3_core_api
+      @@v3_core_api ||= WebstopApi::Client.new(api_version: "v3")
+    end
+    
+    
+    def self.v3_core_credentials
+      @@v3_core_credentials ||= begin
+        admin = v3_core_api.login(
+          retailer_id: ENV['RETAILER_ID'],
+          email: ENV['WEBSTOP_API_V3_AUTH_LOGIN'],
+          password: ENV['WEBSTOP_API_V3_AUTH_PASSWORD']
+        )
+        admin.consumer_credentials
+      end
+    end
   end
 end
