@@ -12,8 +12,14 @@ module WebstopApi
       end
 
       def _get_store(options = {})
+        query_params = {
+          consumer_credentials: options[:token]
+        }
+
+        query_params[:all_stores] = true if options[:all_stores]
+
         retailer_connection.get do |req|
-          req.url "stores/by_store_number/#{options[:store_number]}", consumer_credentials: options[:token]
+          req.url "stores/by_store_number/#{options[:store_number]}", query_params
         end
       end
 

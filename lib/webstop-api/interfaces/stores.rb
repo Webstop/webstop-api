@@ -9,8 +9,8 @@ module WebstopApi
         _get_stores(token: token).with_indifferent_access
       end
 
-      def find_store_by_store_number(store_number)
-        _get_store(store_number: store_number)
+      def find_store_by_store_number(options = {})
+        _get_store(options)
       end
 
       def create_store(options = {}, attributes = {})
