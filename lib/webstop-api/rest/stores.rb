@@ -31,8 +31,14 @@ module WebstopApi
       end
 
       def _update_store(options = {}, store_attributes = {})
+        query_params = {
+          consumer_credentials: options[:token]
+        }
+
+        query_params[:all_stores] = true if options[:all_stores]
+
         retailer_connection.put do |req|
-          req.url "stores/#{options[:store_id]}", consumer_credentials: options[:token]
+          req.url "stores/#{options[:store_id]}", query_params
           req.body = store_attributes.compact.to_json
         end
       end
